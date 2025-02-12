@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { BackgroundColor, Size } from "../constants";
+import { Color, Size } from "../constants";
 import { Sizes } from "../constants";
 
 type PutSignProps = {
-  backgroundColor: BackgroundColor;
+  backgroundColor: Color;
+  fontColor: Color;
   size: Size;
 };
 
-const putSignStyle = (backgroundColor: string) => css`
+const putSignStyle = (backgroundColor: string, fontColor: string) => css`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,13 +19,13 @@ const putSignStyle = (backgroundColor: string) => css`
   background-color: ${backgroundColor};
   font-family: Arial, sans-serif;
   font-weight: bold;
-  color: black;
+  color: ${fontColor};
 `;
 
 export default function PutSign(props: PutSignProps) {
-  const { backgroundColor, size } = props;
+  const { backgroundColor, fontColor, size } = props;
   return (
-    <div css={[putSignStyle(backgroundColor), sizeStyles[size]]}>
+    <div css={[putSignStyle(backgroundColor, fontColor), sizeStyles[size]]}>
       <span>Put.</span>
     </div>
   );

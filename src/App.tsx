@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/NavBar";
 import Cursor from "./components/Cursor";
-import { BackgroundColor, Size } from "./constants";
+import { Color, Size } from "./constants";
 import { Global, css } from "@emotion/react";
 
 const globalStyles = css`
@@ -16,9 +16,8 @@ const globalStyles = css`
 
 function App() {
   const [size, setSize] = useState<Size>(Size.Medium);
-  const [backgroundColor, setBackgroundColor] = useState<BackgroundColor>(
-    BackgroundColor.White
-  );
+  const [backgroundColor, setBackgroundColor] = useState<Color>(Color.White);
+  const [fontColor, setFontColor] = useState<Color>(Color.Black);
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
 
   // Handle the hotkey (e.g., P) to toggle the Put mode
@@ -35,7 +34,7 @@ function App() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
+  console.log("app font color: ", fontColor);
   return (
     <>
       <Global styles={globalStyles} />
@@ -44,12 +43,15 @@ function App() {
         setSize={setSize}
         backgroundColor={backgroundColor}
         setBackgroundColor={setBackgroundColor}
+        fontColor={fontColor}
+        setFontColor={setFontColor}
         isPutActive={isPutActive}
       />
 
       <Cursor
         size={size}
         backgroundColor={backgroundColor}
+        fontColor={fontColor}
         isPutActive={isPutActive}
       />
     </>
