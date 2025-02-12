@@ -34,7 +34,7 @@ function App() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  console.log("app font color: ", fontColor);
+
   return (
     <>
       <Global styles={globalStyles} />

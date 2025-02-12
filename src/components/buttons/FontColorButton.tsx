@@ -8,7 +8,7 @@ interface FontColorButtonProps {
 
 export const FontColorButton = (props: FontColorButtonProps) => {
   const { fontColor, setFontColor } = props;
-  console.log("font color button: ", fontColor);
+
   return (
     <div className={styles.FontColorButton} data-testid='text-color-button'>
       <label htmlFor='fontColor'>Text Color: </label>
