@@ -2,14 +2,17 @@ import { css } from "@emotion/css";
 import React from "react";
 import { BackgroundColorButton } from "./buttons/BackgroundColorButton";
 import { SizeButton } from "./buttons/SizeButton";
-import { BackgroundColor, Size } from "../constants";
+import { Color, Size } from "../constants";
 import { Instructions } from "./Instructions";
+import { FontColorButton } from "./buttons/FontColorButton";
 
 type NavbarProps = {
   size: Size;
   setSize: React.Dispatch<React.SetStateAction<Size>>;
-  backgroundColor: BackgroundColor;
-  setBackgroundColor: React.Dispatch<React.SetStateAction<BackgroundColor>>;
+  backgroundColor: Color;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<Color>>;
+  fontColor: Color;
+  setFontColor: React.Dispatch<React.SetStateAction<Color>>;
   isPutActive: boolean;
 };
 
@@ -18,6 +21,8 @@ const Navbar: React.FC<NavbarProps> = ({
   setSize,
   backgroundColor,
   setBackgroundColor,
+  fontColor,
+  setFontColor,
   isPutActive,
 }) => {
   return (
@@ -27,6 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({
         backgroundColor={backgroundColor}
         setBackgroundColor={setBackgroundColor}
       />
+      <FontColorButton fontColor={fontColor} setFontColor={setFontColor} />
       <Instructions isPutActive={isPutActive} />
     </nav>
   );

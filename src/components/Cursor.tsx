@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import PutSign from "./PutSign"; // Assuming PutSign is in the same folder
-import { BackgroundColor, Size } from "../constants";
+import { Color, Size } from "../constants";
 import { css } from "@emotion/css";
 import { getXYOffSets } from "../helpers";
 
 interface CursorProps {
   size: Size;
-  backgroundColor: BackgroundColor;
+  backgroundColor: Color;
+  fontColor: Color;
   isPutActive: boolean;
 }
 const Cursor = (props: CursorProps) => {
-  const { size, backgroundColor, isPutActive } = props;
+  const { size, backgroundColor, fontColor, isPutActive } = props;
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [putSigns, setPutSigns] = useState<
     {
@@ -18,7 +19,8 @@ const Cursor = (props: CursorProps) => {
       y: number;
       zIndex: number;
       size: Size;
-      backgroundColor: BackgroundColor;
+      backgroundColor: Color;
+      fontColor: Color;
     }[]
   >([]);
   const [zIndex, setZIndex] = useState(1000); // Initial zIndex value for stacking
@@ -50,6 +52,7 @@ const Cursor = (props: CursorProps) => {
         zIndex,
         size,
         backgroundColor,
+        fontColor,
       },
     ]);
     setZIndex(zIndex + 1); // Increase zIndex for the next PutSign
@@ -73,7 +76,11 @@ const Cursor = (props: CursorProps) => {
             pointerEvents: "none", // Don't interfere with other elements
           }}
         >
-          <PutSign size={sign.size} backgroundColor={sign.backgroundColor} />
+          <PutSign
+            size={sign.size}
+            backgroundColor={sign.backgroundColor}
+            fontColor={sign.fontColor}
+          />
         </div>
       ))}
 
@@ -88,7 +95,11 @@ const Cursor = (props: CursorProps) => {
             zIndex: zIndex - 1, // Cursor is below the last PutSign
           }}
         >
-          <PutSign size={size} backgroundColor={backgroundColor} />
+          <PutSign
+            size={size}
+            backgroundColor={backgroundColor}
+            fontColor={fontColor}
+          />
         </div>
       )}
     </div>

@@ -1,9 +1,9 @@
 import { css } from "@emotion/css";
-import { BackgroundColor } from "../../constants";
+import { Color } from "../../constants";
 
 interface BackgroundColorButtonProps {
-  backgroundColor: BackgroundColor;
-  setBackgroundColor: React.Dispatch<React.SetStateAction<BackgroundColor>>;
+  backgroundColor: Color;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<Color>>;
 }
 
 export const BackgroundColorButton = (props: BackgroundColorButtonProps) => {
@@ -18,7 +18,7 @@ export const BackgroundColorButton = (props: BackgroundColorButtonProps) => {
       <select
         id='backgroundColor'
         value={backgroundColor}
-        onChange={(e) => setBackgroundColor(e.target.value as BackgroundColor)}
+        onChange={(e) => setBackgroundColor(e.target.value as Color)}
         style={{ padding: "0.5rem" }}
       >
         <option value='white'>White</option>

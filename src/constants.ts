@@ -18,7 +18,7 @@ export enum Size {
   Yuge = "yuge",
 }
 
-export enum BackgroundColor {
+export enum Color {
   White = "white",
   Black = "black",
   Red = "red",
