@@ -10,19 +10,20 @@ interface CursorProps {
   fontColor: Color;
   isPutActive: boolean;
 }
+
+interface PutSignData {
+  x: number;
+  y: number;
+  zIndex: number;
+  size: Size;
+  backgroundColor: Color;
+  fontColor: Color;
+}
+
 const Cursor = (props: CursorProps) => {
   const { size, backgroundColor, fontColor, isPutActive } = props;
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [putSigns, setPutSigns] = useState<
-    {
-      x: number;
-      y: number;
-      zIndex: number;
-      size: Size;
-      backgroundColor: Color;
-      fontColor: Color;
-    }[]
-  >([]);
+  const [putSigns, setPutSigns] = useState<PutSignData[]>([]);
   const [zIndex, setZIndex] = useState(1000); // Initial zIndex value for stacking
 
   const { x: xOffSet, y: yOffSet } = getXYOffSets(size);
@@ -34,9 +35,39 @@ const Cursor = (props: CursorProps) => {
     };
 
     document.addEventListener("mousemove", handleMouseMove);
-
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClearPuts = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setPutSigns([]); // reset putSigns array to be empty
+      }
+    };
+
+    document.addEventListener("keydown", handleClearPuts);
+    return () => {
+      document.removeEventListener("keydown", handleClearPuts);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleUndo = (e: KeyboardEvent) => {
+      if (e.key === "Backspace") {
+        setPutSigns((prevPutSigns) => {
+          if (prevPutSigns.length === 0) {
+            return [];
+          }
+          return prevPutSigns.slice(0, -1);
+        });
+      }
+    };
+
+    document.addEventListener("keydown", handleUndo);
+    return () => {
+      document.removeEventListener("keydown", handleUndo);
     };
   }, []);
 

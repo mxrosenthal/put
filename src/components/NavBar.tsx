@@ -5,6 +5,7 @@ import { SizeButton } from "./buttons/SizeButton";
 import { Color, Size } from "../constants";
 import { Instructions } from "./Instructions";
 import { FontColorButton } from "./buttons/FontColorButton";
+import PutSign from "./PutSign";
 
 type NavbarProps = {
   size: Size;
@@ -27,13 +28,22 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   return (
     <nav className={styles.navbar}>
-      <SizeButton size={size} setSize={setSize} />
-      <BackgroundColorButton
-        backgroundColor={backgroundColor}
-        setBackgroundColor={setBackgroundColor}
-      />
-      <FontColorButton fontColor={fontColor} setFontColor={setFontColor} />
-      <Instructions isPutActive={isPutActive} />
+      <div className={styles.logo}>
+        <PutSign
+          backgroundColor={Color.White}
+          fontColor={Color.Black}
+          size={Size.Small}
+        />
+        <Instructions isPutActive={isPutActive} />
+      </div>
+      <div className={styles.buttonSection}>
+        <SizeButton size={size} setSize={setSize} />
+        <BackgroundColorButton
+          backgroundColor={backgroundColor}
+          setBackgroundColor={setBackgroundColor}
+        />
+        <FontColorButton fontColor={fontColor} setFontColor={setFontColor} />
+      </div>
     </nav>
   );
 };
@@ -51,6 +61,20 @@ const styles = {
     color: "#fff",
     padding: "1rem",
     display: "flex",
-    justifyContent: "flex-start",
+    flexDirection: "row",
+    justifyContent: "left",
+  }),
+  logo: css({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: "1rem",
+    width: "30%",
+  }),
+  buttonSection: css({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: "1rem",
   }),
 };
