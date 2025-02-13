@@ -19,6 +19,7 @@ function App() {
   const [backgroundColor, setBackgroundColor] = useState<Color>(Color.White);
   const [fontColor, setFontColor] = useState<Color>(Color.Black);
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
+  const [isAudioOn, setAudio] = useState<boolean>(true);
 
   // Handle the hotkey (e.g., P) to toggle the Put mode
   useEffect(() => {
@@ -46,6 +47,8 @@ function App() {
         fontColor={fontColor}
         setFontColor={setFontColor}
         isPutActive={isPutActive}
+        isAudioOn={isAudioOn}
+        setAudio={setAudio}
       />
 
       <Cursor
@@ -53,6 +56,7 @@ function App() {
         backgroundColor={backgroundColor}
         fontColor={fontColor}
         isPutActive={isPutActive}
+        isAudioOn={isAudioOn}
       />
     </>
   );

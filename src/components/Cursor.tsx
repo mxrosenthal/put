@@ -3,12 +3,14 @@ import PutSign from "./PutSign"; // Assuming PutSign is in the same folder
 import { Color, Size } from "../constants";
 import { css } from "@emotion/css";
 import { getXYOffSets } from "../helpers";
+import { useAudio } from "../hooks/useAudio";
 
 interface CursorProps {
   size: Size;
   backgroundColor: Color;
   fontColor: Color;
   isPutActive: boolean;
+  isAudioOn: boolean;
 }
 
 interface PutSignData {
@@ -21,12 +23,19 @@ interface PutSignData {
 }
 
 const Cursor = (props: CursorProps) => {
-  const { size, backgroundColor, fontColor, isPutActive } = props;
+  const { size, backgroundColor, fontColor, isPutActive, isAudioOn } = props;
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [putSigns, setPutSigns] = useState<PutSignData[]>([]);
   const [zIndex, setZIndex] = useState(1000); // Initial zIndex value for stacking
-
+  const audioSrc = useAudio(putSigns.length);
   const { x: xOffSet, y: yOffSet } = getXYOffSets(size);
+
+  useEffect(() => {
+    if (isAudioOn && putSigns.length > 0) {
+      const audio = new Audio(audioSrc);
+      audio.play();
+    }
+  }, [putSigns.length]);
 
   // // Handle mouse movement to track the cursor position
   useEffect(() => {

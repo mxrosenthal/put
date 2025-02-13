@@ -6,6 +6,7 @@ import { Color, Size } from "../constants";
 import { Instructions } from "./Instructions";
 import { FontColorButton } from "./buttons/FontColorButton";
 import PutSign from "./PutSign";
+import { ToggleAudioButton } from "./buttons/audio/ToggleAudioButton";
 
 type NavbarProps = {
   size: Size;
@@ -15,6 +16,8 @@ type NavbarProps = {
   fontColor: Color;
   setFontColor: React.Dispatch<React.SetStateAction<Color>>;
   isPutActive: boolean;
+  isAudioOn: boolean;
+  setAudio: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -25,6 +28,8 @@ const Navbar: React.FC<NavbarProps> = ({
   fontColor,
   setFontColor,
   isPutActive,
+  isAudioOn,
+  setAudio,
 }) => {
   return (
     <nav className={styles.navbar}>
@@ -43,6 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({
           setBackgroundColor={setBackgroundColor}
         />
         <FontColorButton fontColor={fontColor} setFontColor={setFontColor} />
+        <ToggleAudioButton isAudioOn={isAudioOn} setAudio={setAudio} />
       </div>
     </nav>
   );
