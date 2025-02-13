@@ -30,3 +30,14 @@ export enum Color {
   Pink = "pink",
   Brown = "brown",
 }
+
+export enum AudioFiles {
+  sixtyNine = "src/audio/69 puts.mp3",
+  hundred = "src/audio/100 puts.mp3",
+  thousand = "src/audio/1000 puts.mp3",
+  nicePut = "src/audio/Nice put 2.mp3",
+  putMaster = "src/audio/Put master 1.mp3",
+  reallyGreatPut = "src/audio/Really great put 2.mp3",
+  somebodyPut = "src/audio/Somebody put 1.mp3",
+  lotOfPutting = "src/audio/Theres a lot of putting going on.mp3",
+}
