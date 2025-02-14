@@ -1,21 +1,42 @@
 import { css } from "@emotion/css";
+import { Dropdown, MenuProps, Space } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 
-interface InstructionProps {
-  isPutActive: boolean;
-}
+export const Instructions = () => {
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Action: Hotkey",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "2",
+      label: "Toggle Put. mode: P",
+    },
 
-export const Instructions = (props: InstructionProps) => {
-  const { isPutActive } = props;
-
+    {
+      key: "3",
+      label: "Undo: Backspace",
+    },
+    {
+      key: "4",
+      label: "Restart: Escape",
+      danger: true,
+    },
+    // TODO: Add hotkey for audio
+  ];
   return (
     <div className={styles.container}>
-      <div>Instructions:</div>
-      <div>
-        hit 'P' to toggle Put. mode. Currently: {isPutActive ? "ON" : "OFF"}
-      </div>
-
-      <div>hit Escape to clear</div>
-      <div>hit Backspace to undo</div>
+      <Dropdown menu={{ items }}>
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            Instructions
+            <DownOutlined />
+          </Space>
+        </a>
+      </Dropdown>
     </div>
   );
 };

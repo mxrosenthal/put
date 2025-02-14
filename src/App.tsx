@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/NavBar";
 import Cursor from "./components/Cursor";
-import { Color, Size } from "./constants";
+import { Size } from "./constants";
 import { Global, css } from "@emotion/react";
+import { Color } from "./types";
 
 const globalStyles = css`
   html,
@@ -15,9 +16,9 @@ const globalStyles = css`
 `;
 
 function App() {
-  const [size, setSize] = useState<Size>(Size.Medium);
-  const [backgroundColor, setBackgroundColor] = useState<Color>(Color.White);
-  const [fontColor, setFontColor] = useState<Color>(Color.Black);
+  const [size, setSize] = useState<Size>("medium");
+  const [backgroundColor, setBackgroundColor] = useState<Color>("#ffffff");
+  const [fontColor, setFontColor] = useState<Color>("#000000");
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
   const [isAudioOn, setAudio] = useState<boolean>(true);
 
@@ -46,7 +47,6 @@ function App() {
         setBackgroundColor={setBackgroundColor}
         fontColor={fontColor}
         setFontColor={setFontColor}
-        isPutActive={isPutActive}
         isAudioOn={isAudioOn}
         setAudio={setAudio}
       />

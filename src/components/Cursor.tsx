@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PutSign from "./PutSign"; // Assuming PutSign is in the same folder
-import { Color, Size } from "../constants";
+import { Size } from "../constants";
 import { css } from "@emotion/css";
 import { getXYOffSets } from "../helpers";
 import { useAudio } from "../hooks/useAudio";
+import { Color } from "../types";
 
 interface CursorProps {
   size: Size;

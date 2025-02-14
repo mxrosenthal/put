@@ -1,5 +1,7 @@
+import { Color } from "../../types";
+import { AggregationColor } from "antd/es/color-picker/color";
+import { ColorPicker } from "antd";
 import { css } from "@emotion/css";
-import { Color } from "../../constants";
 
 interface FontColorButtonProps {
   fontColor: Color;
@@ -10,31 +12,32 @@ export const FontColorButton = (props: FontColorButtonProps) => {
   const { fontColor, setFontColor } = props;
 
   return (
-    <div className={styles.FontColorButton} data-testid='text-color-button'>
-      <label htmlFor='fontColor'>Text Color: </label>
-      <select
-        id='textColor'
+    <div className={styles.fontColorButton} data-testid='font-color-button'>
+      <label htmlFor='font-color-button'>Font</label>
+      <ColorPicker
         value={fontColor}
-        onChange={(e) => setFontColor(e.target.value as Color)}
-        style={{ padding: "0.5rem" }}
-      >
-        <option value='white'>White</option>
-        <option value='black'>Black</option>
-        <option value='red'>Red</option>
-        <option value='green'>Green</option>
-        <option value='blue'>Blue</option>
-        <option value='yellow'>Yellow</option>
-        <option value='purple'>Purple</option>
-        <option value='orange'>Orange</option>
-        <option value='pink'>Pink</option>
-        <option value='brown'>Brown</option>
-      </select>
+        onChange={(value: Color) => {
+          if (typeof value === "string") {
+            // It's already a valid CSS color string
+            setFontColor(value);
+          } else if (value instanceof AggregationColor) {
+            // Convert AggregationColor to hex string
+            setFontColor(value.toHexString());
+          }
+        }}
+        defaultValue={fontColor}
+        size='large'
+      />
     </div>
   );
 };
 
 const styles = {
-  FontColorButton: css({
+  fontColorButton: css({
+    display: "flex",
+    flexDirection: "column",
     padding: "0.5rem",
+    alignItems: "center",
+    width: "100px",
   }),
 };
