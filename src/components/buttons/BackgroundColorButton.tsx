@@ -1,7 +1,8 @@
-import { ColorPicker } from "antd";
+import { Button, ColorPicker } from "antd";
 import { AggregationColor } from "antd/es/color-picker/color";
 import { Color } from "../../types";
 import { css } from "@emotion/css";
+import { useMemo } from "react";
 
 interface BackgroundColorButtonProps {
   backgroundColor: Color;
@@ -11,13 +12,24 @@ interface BackgroundColorButtonProps {
 export const BackgroundColorButton = (props: BackgroundColorButtonProps) => {
   const { backgroundColor, setBackgroundColor } = props;
 
+  const bgColor = useMemo<string>(
+    () =>
+      typeof backgroundColor === "string"
+        ? backgroundColor
+        : backgroundColor!.toHexString(),
+    [backgroundColor]
+  );
+
+  const btnStyle: React.CSSProperties = {
+    backgroundColor: bgColor,
+    color: "black",
+  };
+
   return (
     <div
       className={styles.backgroundColorButton}
       data-testid='background-color-button'
     >
-      <label htmlFor='background-color-button'>Background</label>
-
       <ColorPicker
         value={backgroundColor || "white"}
         onChange={(value: Color) => {
@@ -30,7 +42,11 @@ export const BackgroundColorButton = (props: BackgroundColorButtonProps) => {
           }
         }}
         size='large'
-      />
+      >
+        <Button type='primary' style={btnStyle}>
+          Background
+        </Button>
+      </ColorPicker>
     </div>
   );
 };

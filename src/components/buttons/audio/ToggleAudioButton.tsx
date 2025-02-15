@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import { Button, Switch } from "antd";
+import { Switch } from "antd";
 
 interface ToggleAudioButtonProps {
   isAudioOn: boolean;
@@ -11,10 +11,12 @@ export const ToggleAudioButton = (props: ToggleAudioButtonProps) => {
 
   return (
     <div className={styles.audioToggleButton} data-testid='toggle-audio-button'>
-      <label htmlFor='toggle-audio-button'>
-        Audio: ({isAudioOn ? "On" : "Off"})
-      </label>
-      <Switch defaultChecked onChange={() => setAudio(!isAudioOn)} />
+      <Switch
+        checkedChildren='Audio On'
+        unCheckedChildren='Audio Off'
+        defaultChecked
+        onChange={() => setAudio(!isAudioOn)}
+      />
     </div>
   );
 };
@@ -23,7 +25,6 @@ const styles = {
   audioToggleButton: css({
     display: "flex",
     flexDirection: "column",
-    padding: "0.5rem",
     alignItems: "center",
     width: "100px",
   }),

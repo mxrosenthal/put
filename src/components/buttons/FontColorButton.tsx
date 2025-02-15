@@ -1,7 +1,8 @@
 import { Color } from "../../types";
 import { AggregationColor } from "antd/es/color-picker/color";
-import { ColorPicker } from "antd";
+import { Button, ColorPicker } from "antd";
 import { css } from "@emotion/css";
+import { useMemo } from "react";
 
 interface FontColorButtonProps {
   fontColor: Color;
@@ -11,9 +12,20 @@ interface FontColorButtonProps {
 export const FontColorButton = (props: FontColorButtonProps) => {
   const { fontColor, setFontColor } = props;
 
+  const ftColor = useMemo<string>(
+    () =>
+      typeof fontColor === "string" ? fontColor : fontColor!.toHexString(),
+    [fontColor]
+  );
+
+  const btnStyle: React.CSSProperties = {
+    backgroundColor: "white",
+    color: ftColor,
+  };
+
   return (
     <div className={styles.fontColorButton} data-testid='font-color-button'>
-      <label htmlFor='font-color-button'>Font</label>
+      {/* <label htmlFor='font-color-button'>Font</label> */}
       <ColorPicker
         value={fontColor}
         onChange={(value: Color) => {
@@ -27,7 +39,11 @@ export const FontColorButton = (props: FontColorButtonProps) => {
         }}
         defaultValue={fontColor}
         size='large'
-      />
+      >
+        <Button type='primary' style={btnStyle}>
+          Font
+        </Button>
+      </ColorPicker>
     </div>
   );
 };
