@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import PutSign from "../components/PutSign";
+import PutSign from "../photo-updating-tool/components/PutSign";
 
 const meta: Meta<typeof PutSign> = {
   title: "Components/PutSign",

@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Size } from "../constants";
-import { Sizes } from "../constants";
-import { Color } from "../types";
+import { Size } from "../../constants";
+import { Sizes } from "../../constants";
+import { Color } from "../../types";
 import { AggregationColor } from "antd/es/color-picker/color";
 
 type PutSignProps = {

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./components/NavBar";
-import Cursor from "./components/Cursor";
-import { Size } from "./constants";
 import { Global, css } from "@emotion/react";
-import { Color } from "./types";
+import { Layout, Menu, MenuProps } from "antd";
+import Sider from "antd/es/layout/Sider";
+import { Content, Footer } from "antd/es/layout/layout";
+import {
+  CameraOutlined,
+  HomeOutlined,
+  PieChartOutlined,
+} from "@ant-design/icons";
+import PutSign from "./photo-updating-tool/components/PutSign";
+import { PhotoUpdatingTool } from "./photo-updating-tool/PhotoUpdatingTool";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 const globalStyles = css`
   html,
@@ -16,49 +23,80 @@ const globalStyles = css`
 `;
 
 function App() {
-  const [size, setSize] = useState<Size>("medium");
-  const [backgroundColor, setBackgroundColor] = useState<Color>("#ffffff");
-  const [fontColor, setFontColor] = useState<Color>("#000000");
-  const [isPutActive, setIsPutActive] = useState<boolean>(false);
-  const [isAudioOn, setAudio] = useState<boolean>(true);
+  const [collapsed, setCollapsed] = useState(false);
+  const [selectedKey, setSelectedKey] = useState<string>("/");
 
-  // Handle the hotkey (e.g., P) to toggle the Put mode
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "p" || e.key === "P") {
-        setIsPutActive((prev) => !prev); // Toggle Put mode
-      }
-    };
+    setSelectedKey(location.pathname);
+  }, [location.pathname]);
 
-    document.addEventListener("keydown", handleKeyDown);
+  type MenuItem = Required<MenuProps>["items"][number];
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+  function getItem(
+    label: React.ReactNode,
+    key: string,
+    icon?: React.ReactNode
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      label,
+      onClick: () => navigate(key), // Navigate to the key (which matches route paths)
     };
-  }, []);
+  }
+
+  const items: MenuItem[] = [
+    getItem("Dashboard", "1", <HomeOutlined />),
+    getItem("Photo Updating Tool", "photo-updating-tool", <CameraOutlined />),
+    getItem("Option 1", "3", <PieChartOutlined />),
+  ];
 
   return (
-    <>
+    <Layout style={{ minHeight: "100vh" }}>
       <Global styles={globalStyles} />
-      <Navbar
-        size={size}
-        setSize={setSize}
-        backgroundColor={backgroundColor}
-        setBackgroundColor={setBackgroundColor}
-        fontColor={fontColor}
-        setFontColor={setFontColor}
-        isAudioOn={isAudioOn}
-        setAudio={setAudio}
-      />
-
-      <Cursor
-        size={size}
-        backgroundColor={backgroundColor}
-        fontColor={fontColor}
-        isPutActive={isPutActive}
-        isAudioOn={isAudioOn}
-      />
-    </>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
+        <div className='demo-logo-vertical' />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            paddingLeft: "24px",
+            paddingBottom: "10px",
+            paddingTop: "10px",
+          }}
+        >
+          <PutSign backgroundColor='white' fontColor='black' size='small' />
+        </div>
+        <Menu
+          theme='dark'
+          defaultSelectedKeys={[selectedKey]}
+          mode='inline'
+          items={items}
+        />
+      </Sider>
+      <Layout>
+        <Content>
+          <Routes>
+            <Route path='/' element={<div>Welcome to the Dashboard</div>} />
+            <Route
+              path='/photo-updating-tool'
+              element={<PhotoUpdatingTool />}
+            />
+            <Route path='/option1' element={<div>Option 1 Content</div>} />
+          </Routes>
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </Footer>
+      </Layout>
+    </Layout>
   );
 }
 

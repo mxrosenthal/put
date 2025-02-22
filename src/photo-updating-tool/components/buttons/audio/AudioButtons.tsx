@@ -1,4 +1,4 @@
-import { AudioFiles } from "../../../constants";
+import { AudioFiles } from "../../../../constants";
 
 export const SixtyNinePutsButton = () => {
   const audio = new Audio(AudioFiles.sixtyNine);
