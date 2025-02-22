@@ -25,7 +25,14 @@ interface PutSignData {
 }
 
 const Cursor = (props: CursorProps) => {
-  const { size, backgroundColor, fontColor, isPutActive, isAudioOn } = props;
+  const {
+    size,
+    backgroundColor,
+    fontColor,
+    isPutActive,
+    isAudioOn,
+    selectedImage,
+  } = props;
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [putSigns, setPutSigns] = useState<PutSignData[]>([]);
   const [zIndex, setZIndex] = useState(1000); // Initial zIndex value for stacking
@@ -89,6 +96,16 @@ const Cursor = (props: CursorProps) => {
       onClick={handleClick}
       data-testid='cursor-container'
       className={styles.container}
+      style={{
+        backgroundImage: selectedImage ? `url(${selectedImage})` : "none",
+        // backgroundSize: "cover",
+        backgroundSize: "auto",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        // position: "relative",
+        // width: "100%",
+        // height: "100%",
+      }}
     >
       {/* Render PutSign components based on their stored positions (no offsets)*/}
       {putSigns.map((sign, index) => (
@@ -138,7 +155,5 @@ const styles = {
   container: css({
     height: "calc(100vh - 50px)",
     width: "100%",
-    backgroundColor: "white",
-    color: "black",
   }),
 };
