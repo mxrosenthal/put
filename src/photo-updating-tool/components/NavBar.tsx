@@ -2,11 +2,11 @@ import { css } from "@emotion/css";
 import React from "react";
 import { BackgroundColorButton } from "./buttons/BackgroundColorButton";
 import { SizeButton } from "./buttons/SizeButton";
-import { Color, Size } from "../constants";
+import { Size } from "../../constants";
 import { Instructions } from "./Instructions";
 import { FontColorButton } from "./buttons/FontColorButton";
-import PutSign from "./PutSign";
 import { ToggleAudioButton } from "./buttons/audio/ToggleAudioButton";
+import { Color } from "../../types";
 
 type NavbarProps = {
   size: Size;
@@ -15,7 +15,6 @@ type NavbarProps = {
   setBackgroundColor: React.Dispatch<React.SetStateAction<Color>>;
   fontColor: Color;
   setFontColor: React.Dispatch<React.SetStateAction<Color>>;
-  isPutActive: boolean;
   isAudioOn: boolean;
   setAudio: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -27,19 +26,13 @@ const Navbar: React.FC<NavbarProps> = ({
   setBackgroundColor,
   fontColor,
   setFontColor,
-  isPutActive,
   isAudioOn,
   setAudio,
 }) => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <PutSign
-          backgroundColor={Color.White}
-          fontColor={Color.Black}
-          size={Size.Small}
-        />
-        <Instructions isPutActive={isPutActive} />
+        <Instructions />
       </div>
       <div className={styles.buttonSection}>
         <SizeButton size={size} setSize={setSize} />
@@ -58,9 +51,6 @@ export default Navbar;
 
 const styles = {
   navbar: css({
-    position: "absolute",
-    top: 0,
-    left: 0,
     width: "100%",
     height: "50px",
     backgroundColor: "#333",
@@ -81,6 +71,6 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginRight: "1rem",
+    gap: "10px",
   }),
 };

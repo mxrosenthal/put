@@ -8,15 +8,14 @@ export const Sizes = {
   yuge: { width: 640, height: 320, fontSize: 256 },
 };
 
-export enum Size {
-  Micro = "micro",
-  Tiny = "tiny",
-  Small = "small",
-  Medium = "medium",
-  Large = "large",
-  Venti = "venti",
-  Yuge = "yuge",
-}
+export type Size =
+  | "micro"
+  | "tiny"
+  | "small"
+  | "medium"
+  | "large"
+  | "venti"
+  | "yuge";
 
 export enum Color {
   White = "white",
