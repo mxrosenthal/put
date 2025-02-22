@@ -12,6 +12,7 @@ interface CursorProps {
   fontColor: Color;
   isPutActive: boolean;
   isAudioOn: boolean;
+  selectedImage: string;
 }
 
 interface PutSignData {
@@ -38,34 +39,15 @@ const Cursor = (props: CursorProps) => {
     }
   }, [putSigns.length]);
 
-  // // Handle mouse movement to track the cursor position
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleClearPuts = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setPutSigns([]); // reset putSigns array to be empty
-      }
-    };
-
-    document.addEventListener("keydown", handleClearPuts);
-    return () => {
-      document.removeEventListener("keydown", handleClearPuts);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleUndo = (e: KeyboardEvent) => {
-      if (e.key === "Backspace") {
+        setPutSigns([]); // Reset putSigns array to be empty
+      } else if (e.key === "Backspace") {
         setPutSigns((prevPutSigns) => {
           if (prevPutSigns.length === 0) {
             return [];
@@ -75,9 +57,12 @@ const Cursor = (props: CursorProps) => {
       }
     };
 
-    document.addEventListener("keydown", handleUndo);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      document.removeEventListener("keydown", handleUndo);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 

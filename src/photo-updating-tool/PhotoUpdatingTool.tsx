@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Size } from "../constants";
 import Navbar from "./components/NavBar";
 import Cursor from "./components/Cursor";
-import { Size } from "../constants";
-import { Color } from "../types";
+import { DragDropPhoto } from "./components/DragDropPhoto";
 
 export function PhotoUpdatingTool() {
   const [size, setSize] = useState<Size>("medium");
-  const [backgroundColor, setBackgroundColor] = useState<Color>("#ffffff");
-  const [fontColor, setFontColor] = useState<Color>("#000000");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
+  const [fontColor, setFontColor] = useState<string>("#000000");
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
   const [isAudioOn, setAudio] = useState<boolean>(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // const imageRef = useRef<HTMLDivElement | null>(null);
 
   // Handle the hotkey (e.g., P) to toggle the Put mode
   useEffect(() => {
@@ -20,7 +22,6 @@ export function PhotoUpdatingTool() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -39,13 +40,19 @@ export function PhotoUpdatingTool() {
         setAudio={setAudio}
       />
 
-      <Cursor
-        size={size}
-        backgroundColor={backgroundColor}
-        fontColor={fontColor}
-        isPutActive={isPutActive}
-        isAudioOn={isAudioOn}
-      />
+      {/* Show image uploader if no image is selected */}
+      {!selectedImage ? (
+        <DragDropPhoto setSelectedImage={setSelectedImage} />
+      ) : (
+        <Cursor
+          size={size}
+          backgroundColor={backgroundColor}
+          fontColor={fontColor}
+          isPutActive={isPutActive}
+          isAudioOn={isAudioOn}
+          selectedImage={selectedImage}
+        />
+      )}
     </>
   );
 }

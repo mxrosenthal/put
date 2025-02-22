@@ -12,9 +12,9 @@ type NavbarProps = {
   size: Size;
   setSize: React.Dispatch<React.SetStateAction<Size>>;
   backgroundColor: Color;
-  setBackgroundColor: React.Dispatch<React.SetStateAction<Color>>;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
   fontColor: Color;
-  setFontColor: React.Dispatch<React.SetStateAction<Color>>;
+  setFontColor: React.Dispatch<React.SetStateAction<string>>;
   isAudioOn: boolean;
   setAudio: React.Dispatch<React.SetStateAction<boolean>>;
 };

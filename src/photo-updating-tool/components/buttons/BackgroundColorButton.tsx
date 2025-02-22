@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 interface BackgroundColorButtonProps {
   backgroundColor: Color;
-  setBackgroundColor: React.Dispatch<React.SetStateAction<Color>>;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const BackgroundColorButton = (props: BackgroundColorButtonProps) => {
