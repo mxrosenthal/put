@@ -40,7 +40,8 @@ export function DragDropPhoto(props: DragDropPhotoProps) {
       onDrop={handleDrop}
       className={styles.dragDrop}
     >
-      <p>Drag and drop a photo here, or click to select one</p>
+      <p>Drag and drop to Put. a photo here, or click to select one</p>
+
       <input
         type='file'
         accept='image/*'
@@ -49,8 +50,9 @@ export function DragDropPhoto(props: DragDropPhotoProps) {
         id='fileInput'
       />
       <label htmlFor='fileInput' className={styles.label}>
-        Select Photo
+        Please Put. Photo
       </label>
+      <p>(Supports JPEG, PNG, GIF, BMP, and WebP)</p>
     </div>
   );
 }
