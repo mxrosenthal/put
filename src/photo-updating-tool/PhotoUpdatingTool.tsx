@@ -11,7 +11,10 @@ export function PhotoUpdatingTool() {
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
   const [isAudioOn, setAudio] = useState<boolean>(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  // const imageRef = useRef<HTMLDivElement | null>(null);
+  const [imageSize, setImageSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   // Handle the hotkey (e.g., P) to toggle the Put mode
   useEffect(() => {
@@ -38,11 +41,16 @@ export function PhotoUpdatingTool() {
         setFontColor={setFontColor}
         isAudioOn={isAudioOn}
         setAudio={setAudio}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
       />
 
       {/* Show image uploader if no image is selected */}
       {!selectedImage ? (
-        <DragDropPhoto setSelectedImage={setSelectedImage} />
+        <DragDropPhoto
+          setSelectedImage={setSelectedImage}
+          setImageSize={setImageSize}
+        />
       ) : (
         <Cursor
           size={size}
@@ -51,6 +59,7 @@ export function PhotoUpdatingTool() {
           isPutActive={isPutActive}
           isAudioOn={isAudioOn}
           selectedImage={selectedImage}
+          imageSize={imageSize}
         />
       )}
     </>
