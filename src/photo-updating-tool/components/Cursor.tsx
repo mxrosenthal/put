@@ -12,6 +12,8 @@ interface CursorProps {
   fontColor: Color;
   isPutActive: boolean;
   isAudioOn: boolean;
+  selectedImage: string;
+  imageSize: { width: number; height: number } | null;
 }
 
 interface PutSignData {
@@ -24,7 +26,15 @@ interface PutSignData {
 }
 
 const Cursor = (props: CursorProps) => {
-  const { size, backgroundColor, fontColor, isPutActive, isAudioOn } = props;
+  const {
+    size,
+    backgroundColor,
+    fontColor,
+    isPutActive,
+    isAudioOn,
+    selectedImage,
+    imageSize,
+  } = props;
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [putSigns, setPutSigns] = useState<PutSignData[]>([]);
   const [zIndex, setZIndex] = useState(1000); // Initial zIndex value for stacking
@@ -38,34 +48,15 @@ const Cursor = (props: CursorProps) => {
     }
   }, [putSigns.length]);
 
-  // // Handle mouse movement to track the cursor position
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleClearPuts = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setPutSigns([]); // reset putSigns array to be empty
-      }
-    };
-
-    document.addEventListener("keydown", handleClearPuts);
-    return () => {
-      document.removeEventListener("keydown", handleClearPuts);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleUndo = (e: KeyboardEvent) => {
-      if (e.key === "Backspace") {
+        setPutSigns([]); // Reset putSigns array to be empty
+      } else if (e.key === "Backspace") {
         setPutSigns((prevPutSigns) => {
           if (prevPutSigns.length === 0) {
             return [];
@@ -75,9 +66,12 @@ const Cursor = (props: CursorProps) => {
       }
     };
 
-    document.addEventListener("keydown", handleUndo);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      document.removeEventListener("keydown", handleUndo);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -105,44 +99,59 @@ const Cursor = (props: CursorProps) => {
       data-testid='cursor-container'
       className={styles.container}
     >
-      {/* Render PutSign components based on their stored positions (no offsets)*/}
-      {putSigns.map((sign, index) => (
+      <div id='screenshot-area'>
+        {/* This ID ^ specifies just the image space to take a screen shot of, rather than the full screen. */}
         <div
-          key={index}
           style={{
-            position: "absolute",
-            top: sign.y, // Adjust cursor offset
-            left: sign.x, // Adjust cursor offset
-            zIndex: sign.zIndex, // Ensure stacking order
-            pointerEvents: "none", // Don't interfere with other elements
+            backgroundImage: selectedImage ? `url(${selectedImage})` : "none",
+            // backgroundSize: "cover",
+            backgroundSize: "auto",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            height: imageSize ? `${imageSize.height}px` : "auto",
+            width: imageSize ? `${imageSize.width}px` : "auto",
           }}
         >
-          <PutSign
-            size={sign.size}
-            backgroundColor={sign.backgroundColor}
-            fontColor={sign.fontColor}
-          />
-        </div>
-      ))}
+          {/* Render PutSign components based on their stored positions (no offsets)*/}
+          {putSigns.map((sign, index) => (
+            <div
+              key={index}
+              style={{
+                position: "absolute",
+                top: sign.y, // Adjust cursor offset
+                left: sign.x, // Adjust cursor offset
+                zIndex: sign.zIndex, // Ensure stacking order
+                pointerEvents: "none", // Don't interfere with other elements
+              }}
+            >
+              <PutSign
+                size={sign.size}
+                backgroundColor={sign.backgroundColor}
+                fontColor={sign.fontColor}
+              />
+            </div>
+          ))}
 
-      {/* Render the custom cursor */}
-      {isPutActive && (
-        <div
-          style={{
-            position: "absolute",
-            top: cursorPosition.y - yOffSet, // Adjust the cursor size and offset
-            left: cursorPosition.x - xOffSet,
-            pointerEvents: "none",
-            zIndex: zIndex - 1, // Cursor is below the last PutSign
-          }}
-        >
-          <PutSign
-            size={size}
-            backgroundColor={backgroundColor}
-            fontColor={fontColor}
-          />
+          {/* Render the custom cursor */}
+          {isPutActive && (
+            <div
+              style={{
+                position: "absolute",
+                top: cursorPosition.y - yOffSet, // Adjust the cursor size and offset
+                left: cursorPosition.x - xOffSet,
+                pointerEvents: "none",
+                zIndex: zIndex - 1, // Cursor is below the last PutSign
+              }}
+            >
+              <PutSign
+                size={size}
+                backgroundColor={backgroundColor}
+                fontColor={fontColor}
+              />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -151,9 +160,10 @@ export default Cursor;
 
 const styles = {
   container: css({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     height: "calc(100vh - 50px)",
     width: "100%",
-    backgroundColor: "white",
-    color: "black",
   }),
 };

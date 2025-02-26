@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Size } from "../constants";
 import Navbar from "./components/NavBar";
 import Cursor from "./components/Cursor";
-import { Size } from "../constants";
-import { Color } from "../types";
+import { DragDropPhoto } from "./components/DragDropPhoto";
 
 export function PhotoUpdatingTool() {
   const [size, setSize] = useState<Size>("medium");
-  const [backgroundColor, setBackgroundColor] = useState<Color>("#ffffff");
-  const [fontColor, setFontColor] = useState<Color>("#000000");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
+  const [fontColor, setFontColor] = useState<string>("#000000");
   const [isPutActive, setIsPutActive] = useState<boolean>(false);
   const [isAudioOn, setAudio] = useState<boolean>(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageSize, setImageSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   // Handle the hotkey (e.g., P) to toggle the Put mode
   useEffect(() => {
@@ -20,7 +25,6 @@ export function PhotoUpdatingTool() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -37,15 +41,27 @@ export function PhotoUpdatingTool() {
         setFontColor={setFontColor}
         isAudioOn={isAudioOn}
         setAudio={setAudio}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
       />
 
-      <Cursor
-        size={size}
-        backgroundColor={backgroundColor}
-        fontColor={fontColor}
-        isPutActive={isPutActive}
-        isAudioOn={isAudioOn}
-      />
+      {/* Show image uploader if no image is selected */}
+      {!selectedImage ? (
+        <DragDropPhoto
+          setSelectedImage={setSelectedImage}
+          setImageSize={setImageSize}
+        />
+      ) : (
+        <Cursor
+          size={size}
+          backgroundColor={backgroundColor}
+          fontColor={fontColor}
+          isPutActive={isPutActive}
+          isAudioOn={isAudioOn}
+          selectedImage={selectedImage}
+          imageSize={imageSize}
+        />
+      )}
     </>
   );
 }

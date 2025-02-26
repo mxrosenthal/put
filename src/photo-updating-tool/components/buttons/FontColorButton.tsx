@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 interface FontColorButtonProps {
   fontColor: Color;
-  setFontColor: React.Dispatch<React.SetStateAction<Color>>;
+  setFontColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const FontColorButton = (props: FontColorButtonProps) => {
