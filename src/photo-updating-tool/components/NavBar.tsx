@@ -7,6 +7,8 @@ import { Instructions } from "./Instructions";
 import { FontColorButton } from "./buttons/FontColorButton";
 import { ToggleAudioButton } from "./buttons/audio/ToggleAudioButton";
 import { Color } from "../../types";
+import { ScreenShotButton } from "./buttons/ScreenShotButton";
+import { RestartButton } from "./buttons/RestartButton";
 
 type NavbarProps = {
   size: Size;
@@ -17,6 +19,8 @@ type NavbarProps = {
   setFontColor: React.Dispatch<React.SetStateAction<string>>;
   isAudioOn: boolean;
   setAudio: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedImage: string | null;
+  setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -28,6 +32,8 @@ const Navbar: React.FC<NavbarProps> = ({
   setFontColor,
   isAudioOn,
   setAudio,
+  selectedImage,
+  setSelectedImage,
 }) => {
   return (
     <nav className={styles.navbar}>
@@ -35,13 +41,22 @@ const Navbar: React.FC<NavbarProps> = ({
         <Instructions />
       </div>
       <div className={styles.buttonSection}>
-        <SizeButton size={size} setSize={setSize} />
-        <BackgroundColorButton
-          backgroundColor={backgroundColor}
-          setBackgroundColor={setBackgroundColor}
-        />
-        <FontColorButton fontColor={fontColor} setFontColor={setFontColor} />
-        <ToggleAudioButton isAudioOn={isAudioOn} setAudio={setAudio} />
+        {selectedImage && (
+          <>
+            <SizeButton size={size} setSize={setSize} />
+            <BackgroundColorButton
+              backgroundColor={backgroundColor}
+              setBackgroundColor={setBackgroundColor}
+            />
+            <FontColorButton
+              fontColor={fontColor}
+              setFontColor={setFontColor}
+            />
+            <ToggleAudioButton isAudioOn={isAudioOn} setAudio={setAudio} />
+            <ScreenShotButton />
+            <RestartButton setSelectedImage={setSelectedImage} />
+          </>
+        )}
       </div>
     </nav>
   );
